@@ -25,8 +25,14 @@ ENV WORKFLOW=${WORKFLOW}
 
 ARG TARGETPLATFORM
 ENV TARGETPLATFORM=${TARGETPLATFORM}
+# 解决 Conda 条款未同意导致的构建失败
+ENV TERM=linux
+
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 
 RUN bash Docker/miniconda_install.sh
+
 
 COPY extra-req.txt /workspace/GPT-SoVITS/
 
